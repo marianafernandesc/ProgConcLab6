@@ -58,10 +58,10 @@ void Insere (int item) {
     do buffer, que corresponderá o quanto as threads consumidoras 
     poderão consumir.
     Aqui eu assumi que poderia ter mais de uma thread consumidora,
-    acessando o buffer (não simultaneamento, mas no sentido de poder
-    ter mais de uma thread podendo enchendo o buffer em vez de só
-    uma thread encher completamente o buffer), por isso não fiz a 
-    inserção de elementos por meio de um for.
+    acessando o buffer (não simultaneamente, mas no sentido de poder
+    ter mais de uma thread podendo encher o buffer em vez de só
+    uma thread encher completamente o buffer de uma vez), por isso 
+    não fiz a inserção de elementos por meio de um for. 
     */
    }
    sem_post(&mutex);
@@ -86,7 +86,12 @@ int Retira () {
     Quando os produtores consomem o buffer completamente, eles 
     liberam uma quantidade de sinais correspondente ao tamanho 
     do buffer, que corresponderá o quanto as threads produtoras 
-    poderão produzir.
+    poderão produzir. Isso porque estou assumindo que tenho mais
+    de uma thread consumidora que enche o buffer em vez de apenas
+    uma thread encher todo o buffer completamente de uma vez, então
+    se fosse apenas uma thread consumidora enchendo o buffer por
+    meio de um for, então no sem_init teria apenas um sinal e só
+    precisaria de um sem_post(&Vazio) em vez de fazer esse for.
    */
    }
    sem_post(&mutex);
